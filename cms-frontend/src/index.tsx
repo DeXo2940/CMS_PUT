@@ -20,6 +20,7 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import {AddGame} from "./add-game.component";
+import {GamesList} from "./games-list.component";
 
 const drawerWidth = 240;
 
@@ -128,7 +129,7 @@ const CMS: FC = () => {
                             <AddGame/>
                         </Route>
                         <Route path="/">
-                            <Home/>
+                            <GamesList/>
                         </Route>
                     </Switch>
                 </BrowserRouter>
