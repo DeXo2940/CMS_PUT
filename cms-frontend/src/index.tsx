@@ -19,6 +19,7 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
+import {AddGame} from "./add-game.component";
 
 const drawerWidth = 240;
 
@@ -84,11 +85,6 @@ const Admin = () => {
 const Contact = () => {
     return (
         <p>Contact</p>
-    )
-}
-const AddGame = () => {
-    return (
-        <p>Add</p>
     )
 }
 
