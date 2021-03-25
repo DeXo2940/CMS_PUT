@@ -51,4 +51,19 @@ class Game {
 
     @Column
     private String link;
+
+    @Column(name = "image")
+    private String imageLink;
+
+    static Game of(GameRequest request) {
+        return Game.builder()
+                .description(request.getDescription())
+                .name(request.getName())
+                .imageLink(request.getImageLink())
+                .releaseDate(request.getReleaseDate())
+                .minPlayerAmount(request.getMinPlayeramount())
+                .maxPlayerAmount(request.getMaxPlayerAmount())
+                .link(request.getLink())
+                .build();
+    }
 }

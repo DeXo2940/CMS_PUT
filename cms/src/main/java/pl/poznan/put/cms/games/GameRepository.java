@@ -1,9 +1,9 @@
 package pl.poznan.put.cms.games;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface GameRepository extends PagingAndSortingRepository<Game, UUID> {
+public interface GameRepository extends JpaRepository<Game, UUID> {
 
 }

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface GameService {
 
-    void add(GameRequest request);
+    Optional<Game> add(GameRequest request);
 
     void delete(UUID id);
 

@@ -1,13 +1,24 @@
 package pl.poznan.put.cms.games;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
+@AllArgsConstructor
 public class GameServiceImpl implements GameService {
-    @Override
-    public void add(GameRequest request) {
 
+    private final GameRepository gameRepository;
+
+    @Override
+    @Transactional
+    public Optional<Game> add(GameRequest request) {
+        Game game = Game.of(request);
+        return Optional.of(gameRepository.save(game));
     }
 
     @Override
@@ -27,6 +38,6 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<Game> getAllGames() {
-        return null;
+        return gameRepository.findAll();
     }
 }
