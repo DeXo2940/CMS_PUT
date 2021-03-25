@@ -73,11 +73,6 @@ const Menu = () => {
     )
 }
 
-const Home = () => {
-    return (
-        <p>Hehe</p>
-    )
-}
 const Admin = () => {
     return (
         <p>Admin</p>

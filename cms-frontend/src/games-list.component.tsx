@@ -9,10 +9,22 @@ interface Props {
 }
 
 const Container = styled.div`
-display: flex;
-flex-direction: column;
-gap: 2rem;
-width: 40rem;`
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    .MuiCard-root {
+        width: 30rem;
+    }
+`;
+
+const StyledTypography = styled(Typography)`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+`
 
 const GameCard = ({
                       game: {
@@ -26,34 +38,49 @@ const GameCard = ({
                       }
                   }: Props) => {
 
-    return (
-        <Card>
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    height="280"
-                    image={imageLink}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {description}
-                    </Typography>
+    const onLinkClick = () => {
+        window.location.assign(link!!);
+    }
 
-                </CardContent>
-            </CardActionArea>
-            
-            <CardActions>
-                <Button size="small" color="primary">
-                    Edit
-                </Button>
-                <Button size="small" color="primary">
-                    Delete
-                </Button>
-            </CardActions>
-        </Card>
+    return (
+        <div>
+            <Card>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        height="280"
+                        image={imageLink}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h3">
+                            {name}
+                        </Typography>
+                        <StyledTypography variant="body2" color="textSecondary">
+                            <div>{`Released: ${releaseDate}`}</div>
+                            <div>{`Players: ${minPlayerAmount} - ${maxPlayerAmount}`}</div>
+                        </StyledTypography>
+                        <StyledTypography variant="body2" color="textSecondary">
+                            {description}
+                        </StyledTypography>
+                        {link &&
+                        <Button size="medium" onClick={onLinkClick} color="primary">
+                            READ MORE
+                        </Button>
+                        }
+                    </CardContent>
+
+                </CardActionArea>
+                <CardActions>
+
+                    <Button size="small" color="primary">
+                        Edit
+                    </Button>
+                    <Button size="small" color="primary">
+                        Delete
+                    </Button>
+                </CardActions>
+            </Card>
+        </div>
     )
 }
 
