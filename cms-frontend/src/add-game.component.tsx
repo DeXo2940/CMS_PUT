@@ -1,16 +1,21 @@
 import {Button, TextField} from "@material-ui/core";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
+import {useState} from "react";
+import axios from "axios";
 
-const Form = styled.form`
+const flexBox = css`
     display: flex;
     flex-direction: column;
+`;
+
+const Form = styled.form`
+    ${flexBox}
     gap: 1rem;
     width: 30rem;
 `;
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
+    ${flexBox}
 `;
 
 const StyledButton = styled(Button)`
@@ -18,7 +23,32 @@ const StyledButton = styled(Button)`
     margin-top: 1.5rem;
 `;
 
+export interface Game {
+    releaseDate: number
+    name: string,
+    description: string,
+    minPlayerAmount?: number,
+    maxPlayerAmount?: number,
+    link?: string,
+    imageLink?: string
+}
+
+const EMPTY_GAME = {
+    releaseDate: 0,
+    name: "",
+    description: "",
+    minPlayerAmount: 1,
+    maxPlayerAmount: 1
+}
+
 export const AddGame = () => {
+    const [formData, setFormData] = useState<Game>(EMPTY_GAME);
+
+    const onClick = () => {
+        // todo add validation
+        axios.post('/api/game', formData);
+    }
+
     return (
         <Container>
             <Form>
@@ -27,6 +57,8 @@ export const AddGame = () => {
                     label="Game name"
                     variant="outlined"
                     required
+                    value={formData.name}
+                    onChange={(ev) => setFormData({...formData, name: ev.target.value})}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -35,6 +67,8 @@ export const AddGame = () => {
                     id="standard-multiline-static"
                     variant="outlined"
                     label="Description"
+                    value={formData.description}
+                    onChange={(ev) => setFormData({...formData, description: ev.target.value})}
                     multiline
                     required
                     rows={4}
@@ -42,12 +76,13 @@ export const AddGame = () => {
                         shrink: true,
                     }}
                 />
-                <TextField
+                <TextField /* todo change textfield to year picker */
                     id="date"
                     label="Release date"
+                    value={formData.releaseDate}
+                    onChange={(ev) => setFormData({...formData, releaseDate: parseInt(ev.target.value)})}
                     variant="outlined"
                     required
-                    type="date"
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -55,6 +90,8 @@ export const AddGame = () => {
                 <TextField
                     id="standard-full-width"
                     label="Image link"
+                    value={formData.imageLink}
+                    onChange={(ev) => setFormData({...formData, imageLink: ev.target.value})}
                     variant="outlined"
                     InputLabelProps={{
                         shrink: true,
@@ -63,6 +100,8 @@ export const AddGame = () => {
                 <TextField
                     id="standard-full-width"
                     label="Page link"
+                    value={formData.link}
+                    onChange={(ev) => setFormData({...formData, link: ev.target.value})}
                     variant="outlined"
                     InputLabelProps={{
                         shrink: true,
@@ -71,6 +110,8 @@ export const AddGame = () => {
                 <TextField
                     id="standard-full-width"
                     label="Max players amount"
+                    value={formData.maxPlayerAmount}
+                    onChange={(ev) => setFormData({...formData, maxPlayerAmount: parseInt(ev.target.value)})}
                     type="number"
                     variant="outlined"
                     defaultValue={1}
@@ -81,6 +122,8 @@ export const AddGame = () => {
                 <TextField
                     id="standard-full-width"
                     label="Min players amount"
+                    value={formData.minPlayerAmount}
+                    onChange={(ev) => setFormData({...formData, minPlayerAmount: parseInt(ev.target.value)})}
                     type="number"
                     variant="outlined"
                     defaultValue={1}
@@ -89,7 +132,7 @@ export const AddGame = () => {
                     }}
                 />
             </Form>
-            <StyledButton variant="contained" color="primary" size="medium">
+            <StyledButton variant="contained" color="primary" size="medium" onClick={onClick}>
                 Add game
             </StyledButton>
         </Container>

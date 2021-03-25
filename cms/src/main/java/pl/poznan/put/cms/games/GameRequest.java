@@ -7,7 +7,6 @@ import lombok.Getter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
@@ -21,10 +20,10 @@ public class GameRequest {
     private final String description;
 
     @NotNull
-    private final LocalDateTime releaseDate;
+    private final int releaseDate;
 
     @Min(1)
-    private final int minPlayeramount;
+    private final int minPlayerAmount;
 
     @Min(1)
     private final int maxPlayerAmount;

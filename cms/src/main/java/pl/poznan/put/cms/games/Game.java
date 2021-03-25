@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,10 +24,11 @@ import java.util.UUID;
 class Game {
 
     @Id
+    @GeneratedValue
     private UUID id;
 
     @Column(name = "creation_date")
-    @GeneratedValue
+    @CreationTimestamp
     private LocalDateTime creationDate;
 
     @Column
@@ -35,7 +37,7 @@ class Game {
 
     @Column(name = "release_date")
     @NotNull
-    private LocalDateTime releaseDate;
+    private Integer releaseDate;
 
     @Column(columnDefinition = "text")
     @NotBlank
@@ -61,7 +63,7 @@ class Game {
                 .name(request.getName())
                 .imageLink(request.getImageLink())
                 .releaseDate(request.getReleaseDate())
-                .minPlayerAmount(request.getMinPlayeramount())
+                .minPlayerAmount(request.getMinPlayerAmount())
                 .maxPlayerAmount(request.getMaxPlayerAmount())
                 .link(request.getLink())
                 .build();
