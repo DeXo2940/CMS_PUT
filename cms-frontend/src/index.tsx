@@ -1,144 +1,100 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import ReactDOM from 'react-dom';
 import {
     AppBar,
     CssBaseline,
-    Divider,
     Drawer,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
+    FormControlLabel,
     makeStyles,
+    Switch,
     Toolbar,
     Typography
 } from "@material-ui/core";
-import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import {Route, Switch} from "react-router";
-import {BrowserRouter} from "react-router-dom";
-import {AddGame} from "./add-game.component";
-import {GamesList} from "./games-list.component";
+import {Routes} from "./routes";
+import styled from "styled-components";
+import {Menu} from "./menu.component";
+import {AdminContext} from "./admin.context";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    drawerContainer: {
-        overflow: 'auto',
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-}));
+        root: {
+            display: 'flex',
+        },
+        appBar: {
+            zIndex: theme.zIndex.drawer + 1,
+        },
+        drawer: {
+            width: drawerWidth,
+            flexShrink: 0,
+        },
+        drawerPaper: {
+            width: drawerWidth,
+        },
+        drawerContainer: {
+            overflow: 'auto',
+        },
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
+    })
+);
 
-const Menu = () => {
-    return (
-        <List>
-            <ListItem button onClick={() => window.location.assign('/')}>
-                <ListItemIcon><SportsEsportsIcon/></ListItemIcon>
-                <ListItemText primary="See all games"/>
-            </ListItem>
+const StyledToolbar = styled(Toolbar)`
+    display: flex;
+    justify-content: space-between;
+`;
 
-            <ListItem button onClick={() => window.location.assign('/add-game')}>
-                <ListItemIcon><AddBoxIcon/></ListItemIcon>
-                <ListItemText primary="Add new game"/>
-            </ListItem>
-
-            <ListItem button onClick={() => window.location.assign('/contact')}>
-                <ListItemIcon><ContactMailIcon/></ListItemIcon>
-                <ListItemText primary="Contact us"/>
-            </ListItem>
-            <Divider/>
-            <ListItem button onClick={() => window.location.assign('/admin')}>
-                <ListItemIcon><SupervisedUserCircleIcon/></ListItemIcon>
-                <ListItemText primary="Administration"/>
-            </ListItem>
-        </List>
-    )
-}
-
-const Admin = () => {
-    return (
-        <p>Admin</p>
-    )
-}
-const Contact = () => {
-    return (
-        <p>Contact</p>
-    )
-}
 
 const CMS: FC = () => {
     const classes = useStyles()
-
+    const [adminMode, setAdminMode] = useState(false);
 
     return (
-        <div className={classes.root}>
-            <CssBaseline/>
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <Typography variant="h6" noWrap>
-                        Games
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                className={classes.drawer}
-                variant="permanent"
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-            >
-                <Toolbar/>
-                <div className={classes.drawerContainer}>
-                    <Menu/>
-                </div>
-            </Drawer>
-            <main className={classes.content}>
-                <Toolbar/>
-                <BrowserRouter>
-                    <Switch>
-                        <Route path="/admin">
-                            <Admin/>
-                        </Route>
-                        <Route path="/contact">
-                            <Contact/>
-                        </Route>
-                        <Route path="/add-game">
-                            <AddGame/>
-                        </Route>
-                        <Route path="/">
-                            <GamesList/>
-                        </Route>
-                    </Switch>
-                </BrowserRouter>
-
-            </main>
-        </div>
+        <AdminContext.Provider value={adminMode}>
+            <div className={classes.root}>
+                <CssBaseline/>
+                <AppBar position="fixed" className={classes.appBar}>
+                    <StyledToolbar>
+                        <Typography variant="h6" noWrap>
+                            Games
+                        </Typography>
+                        <div>
+                            <FormControlLabel
+                                value="start"
+                                control={<Switch
+                                    checked={adminMode}
+                                    onChange={() => setAdminMode(!adminMode)}
+                                    inputProps={{'aria-label': 'secondary checkbox'}}
+                                />}
+                                label="Administration mode"
+                                labelPlacement="start"/>
+                        </div>
+                    </StyledToolbar>
+                </AppBar>
+                <Drawer
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}>
+                    <Toolbar/>
+                    <div className={classes.drawerContainer}>
+                        <Menu/>
+                    </div>
+                </Drawer>
+                <main className={classes.content}>
+                    <Toolbar/>
+                    <Routes/>
+                </main>
+            </div>
+        </AdminContext.Provider>
     );
 };
 
 ReactDOM.render(
     <React.StrictMode>
         <CMS/>
-    </React.StrictMode>
-    ,
-    document.getElementById('root')
+    </React.StrictMode>, document.getElementById('root')
 );
-

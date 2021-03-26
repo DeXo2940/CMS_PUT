@@ -12,7 +12,5 @@ public interface GameService {
 
     void update(GameRequest request);
 
-    Optional<Game> getGame(UUID id);
-
     List<Game> getAllGames();
 }

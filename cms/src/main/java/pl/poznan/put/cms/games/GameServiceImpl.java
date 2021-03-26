@@ -31,8 +31,7 @@ public class GameServiceImpl implements GameService {
 
     }
 
-    @Override
-    public Optional<Game> getGame(UUID id) {
+    private Optional<Game> getGame(UUID id) {
         return Optional.empty();
     }
 

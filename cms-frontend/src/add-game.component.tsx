@@ -1,45 +1,7 @@
-import {Button, TextField} from "@material-ui/core";
-import styled, {css} from "styled-components";
+import {TextField} from "@material-ui/core";
 import {useState} from "react";
 import axios from "axios";
-
-const flexBox = css`
-    display: flex;
-    flex-direction: column;
-`;
-
-const Form = styled.form`
-    ${flexBox}
-    gap: 1rem;
-    width: 30rem;
-`;
-
-const Container = styled.div`
-    ${flexBox}
-`;
-
-const StyledButton = styled(Button)`
-    width: 10rem;
-    margin-top: 1.5rem;
-`;
-
-export interface Game {
-    releaseDate: number
-    name: string,
-    description: string,
-    minPlayerAmount?: number,
-    maxPlayerAmount?: number,
-    link?: string,
-    imageLink?: string
-}
-
-const EMPTY_GAME = {
-    releaseDate: 0,
-    name: "",
-    description: "",
-    minPlayerAmount: 1,
-    maxPlayerAmount: 1
-}
+import {Container, EMPTY_GAME, Form, Game, StyledButton} from "./add-game.utils";
 
 export const AddGame = () => {
     const [formData, setFormData] = useState<Game>(EMPTY_GAME);
