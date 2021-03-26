@@ -40,3 +40,14 @@ export const EMPTY_GAME = {
     minPlayerAmount: 1,
     maxPlayerAmount: 1
 }
+
+export enum Mode {
+    EDIT, ADD
+}
+
+export interface GameManagementProps {
+    initialState: Game,
+    mode: Mode,
+    onSave?: () => void,
+    onClose?: () => void
+}

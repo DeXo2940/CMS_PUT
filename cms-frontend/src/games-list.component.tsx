@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {GameCard} from "./game-card.component";
-import {Game} from "./add-game.utils";
+import {Game} from "./game-management.utils";
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
 

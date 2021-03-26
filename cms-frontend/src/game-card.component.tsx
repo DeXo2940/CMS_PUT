@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from "@material-ui/core";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {AdminContext} from "./admin.context";
-import {Game} from "./add-game.utils";
+import {Game} from "./game-management.utils";
 import axios from "axios";
+import {EditModal} from "./edit-modal.component";
 
 const StyledTypography = styled(Typography)`
     display: flex;
@@ -16,32 +17,27 @@ interface GameCardProps {
     onGameUpdate: () => void;
 }
 
-export const GameCard = ({
-                             game: {
-                                 description,
-                                 id,
-                                 imageLink,
-                                 link,
-                                 maxPlayerAmount,
-                                 minPlayerAmount,
-                                 name,
-                                 releaseDate
-                             },
-                             onGameUpdate
-                         }: GameCardProps) => {
+export const GameCard = (props: GameCardProps) => {
     const isAdmin = useContext<boolean>(AdminContext);
 
+    const [showModal, setShowModal] = useState(false);
+
     const onLinkClick = () => {
-        window.location.assign(link!!);
+        window.location.assign((props.game.link)!!);
     }
 
     const onEditClick = () => {
-
+        setShowModal(true);
     }
 
     const onDeleteClick = () => {
-        axios.delete(`/api/game/${id}`)
-            .then(() => onGameUpdate());
+        axios.delete(`/api/game/${(props.game.id)}`)
+            .then(() => props.onGameUpdate());
+    }
+
+    const onSave = () => {
+        props.onGameUpdate();
+        setShowModal(false);
     }
 
     return (
@@ -51,20 +47,20 @@ export const GameCard = ({
                     <CardMedia
                         component="img"
                         height="280"
-                        image={imageLink}
+                        image={props.game.imageLink}
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h3">
-                            {name}
+                            {props.game.name}
                         </Typography>
                         <StyledTypography variant="body2" color="textSecondary">
-                            <div>{`Released: ${releaseDate}`}</div>
-                            <div>{`Players: ${minPlayerAmount} - ${maxPlayerAmount}`}</div>
+                            <div>{`Released: ${(props.game.releaseDate)}`}</div>
+                            <div>{`Players: ${(props.game.minPlayerAmount)} - ${(props.game.maxPlayerAmount)}`}</div>
                         </StyledTypography>
                         <StyledTypography variant="body2" color="textSecondary">
-                            {description}
+                            {props.game.description}
                         </StyledTypography>
-                        {link &&
+                        {props.game.link &&
                         <Button size="medium" onClick={onLinkClick} color="primary">
                             READ MORE
                         </Button>
@@ -74,7 +70,6 @@ export const GameCard = ({
                 </CardActionArea>
                 {isAdmin &&
                 <CardActions>
-
                     <Button size="small" color="primary" onClick={onEditClick}>
                         Edit
                     </Button>
@@ -84,6 +79,7 @@ export const GameCard = ({
                 </CardActions>
                 }
             </Card>
+            {showModal && <EditModal game={props.game} onSave={onSave} onClose={() => setShowModal(false)}/>}
         </div>
     )
 }

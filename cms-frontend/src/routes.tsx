@@ -1,24 +1,21 @@
 import {Route, Switch} from "react-router";
-import {AddGame} from "./add-game.component";
+import {GameManagement} from "./game-management.component";
 import {GamesList} from "./games-list.component";
 import {BrowserRouter} from "react-router-dom";
 import React from "react";
+import {EMPTY_GAME, Mode} from "./game-management.utils";
+import {ContactUs} from "./contact-us.component";
 
-const Contact = () => {
-    return (
-        <p>Contact</p>
-    )
-}
 
 export const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
                 <Route path="/contact">
-                    <Contact/>
+                    <ContactUs/>
                 </Route>
                 <Route path="/add-game">
-                    <AddGame/>
+                    <GameManagement initialState={EMPTY_GAME} mode={Mode.ADD}/>
                 </Route>
                 <Route path="/">
                     <GamesList/>

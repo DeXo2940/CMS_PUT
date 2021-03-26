@@ -34,7 +34,7 @@ class GameController {
     }
 
     @PatchMapping
-    ResponseEntity<Void> deleteGame(@RequestBody UpdateGameRequest request) {
+    ResponseEntity<Void> deleteGame(@Valid @RequestBody UpdateGameRequest request) {
         boolean result = gameService.update(request);
 
         if (result) {

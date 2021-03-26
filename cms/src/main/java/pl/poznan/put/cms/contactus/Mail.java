@@ -1,9 +1,6 @@
 package pl.poznan.put.cms.contactus;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,13 +9,14 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Builder
 @Getter
+@ToString
 public class Mail {
 
     @NotBlank
     private String customerMail;
 
     @NotNull
-    private MailTopic mailTopic;
+    private String mailTopic;
 
     @NotBlank
     private String message;

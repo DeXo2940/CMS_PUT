@@ -32,6 +32,17 @@ public class GameServiceImpl implements GameService {
     public boolean update(UpdateGameRequest request) {
         Optional<Game> gameFromRequest = getGame(request.getId());
         if (gameFromRequest.isPresent()) {
+            Game updated = Game.builder()
+                    .id(request.getId())
+                    .description(request.getDescription())
+                    .imageLink(request.getImageLink())
+                    .link(request.getLink())
+                    .maxPlayerAmount(request.getMaxPlayerAmount())
+                    .minPlayerAmount(request.getMinPlayerAmount())
+                    .name(request.getName())
+                    .releaseDate(request.getReleaseDate())
+                    .build();
+            gameRepository.save(updated);
             return true;
         } else {
             return false;
