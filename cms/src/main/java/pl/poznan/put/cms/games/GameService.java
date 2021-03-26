@@ -10,7 +10,7 @@ public interface GameService {
 
     void delete(UUID id);
 
-    void update(GameRequest request);
+    boolean update(UpdateGameRequest request);
 
     List<Game> getAllGames();
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/game")
@@ -25,6 +26,22 @@ class GameController {
 
         return response.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteGame(@PathVariable UUID id) {
+        gameService.delete(id);
+    }
+
+    @PatchMapping
+    ResponseEntity<Void> deleteGame(@RequestBody UpdateGameRequest request) {
+        boolean result = gameService.update(request);
+
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

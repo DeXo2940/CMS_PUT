@@ -3,6 +3,7 @@ import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typog
 import {useContext} from "react";
 import {AdminContext} from "./admin.context";
 import {Game} from "./add-game.utils";
+import axios from "axios";
 
 const StyledTypography = styled(Typography)`
     display: flex;
@@ -31,7 +32,7 @@ export const GameCard = ({
     }
 
     const onDeleteClick = () => {
-
+        axios.delete(`/api/game/${id}`);
     }
 
     return (
@@ -65,10 +66,10 @@ export const GameCard = ({
                 {isAdmin &&
                 <CardActions>
 
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={onEditClick}>
                         Edit
                     </Button>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={onDeleteClick}>
                         Delete
                     </Button>
                 </CardActions>

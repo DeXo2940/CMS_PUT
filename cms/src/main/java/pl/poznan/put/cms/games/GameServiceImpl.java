@@ -22,21 +22,28 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    @Transactional
     public void delete(UUID id) {
-
+        gameRepository.deleteById(id);
     }
 
     @Override
-    public void update(GameRequest request) {
-
-    }
-
-    private Optional<Game> getGame(UUID id) {
-        return Optional.empty();
+    @Transactional
+    public boolean update(UpdateGameRequest request) {
+        Optional<Game> gameFromRequest = getGame(request.getId());
+        if (gameFromRequest.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public List<Game> getAllGames() {
         return gameRepository.findAll();
+    }
+
+    private Optional<Game> getGame(UUID id) {
+        return gameRepository.findById(id);
     }
 }
