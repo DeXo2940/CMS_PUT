@@ -11,16 +11,24 @@ const StyledTypography = styled(Typography)`
     margin-bottom: 1.5rem;
 `;
 
+interface GameCardProps {
+    game: Game,
+    onGameUpdate: () => void;
+}
+
 export const GameCard = ({
-                             id,
-                             description,
-                             imageLink,
-                             link,
-                             maxPlayerAmount,
-                             minPlayerAmount,
-                             name,
-                             releaseDate
-                         }: Game) => {
+                             game: {
+                                 description,
+                                 id,
+                                 imageLink,
+                                 link,
+                                 maxPlayerAmount,
+                                 minPlayerAmount,
+                                 name,
+                                 releaseDate
+                             },
+                             onGameUpdate
+                         }: GameCardProps) => {
     const isAdmin = useContext<boolean>(AdminContext);
 
     const onLinkClick = () => {
@@ -32,7 +40,8 @@ export const GameCard = ({
     }
 
     const onDeleteClick = () => {
-        axios.delete(`/api/game/${id}`);
+        axios.delete(`/api/game/${id}`)
+            .then(() => onGameUpdate());
     }
 
     return (

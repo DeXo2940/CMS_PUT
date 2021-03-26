@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react";
-import axios, {AxiosResponse} from "axios";
 import styled from "styled-components";
 import {GameCard} from "./game-card.component";
 import {Game} from "./add-game.utils";
+import {useEffect, useState} from "react";
+import axios, {AxiosResponse} from "axios";
 
 const Container = styled.div`
     display: flex;
@@ -19,19 +19,22 @@ const Container = styled.div`
 export const GamesList = () => {
     const [games, setGames] = useState<Game[]>([]);
 
-    useEffect(() => {
+    const onGameUpdate = () => {
         axios.get('/api/game')
             .then((response: AxiosResponse<Game[]>) => {
                 response.data && setGames(response.data);
             })
             .catch((error) => {
-
             });
+    }
+
+    useEffect(() => {
+        onGameUpdate();
     }, []);
 
     return (
         <Container>
-            {games.map(game => <GameCard {...game} key={game.name}/>)}
+            {games.map(game => <GameCard onGameUpdate={onGameUpdate} game={{...game}} key={game.name}/>)}
         </Container>
     )
 }
